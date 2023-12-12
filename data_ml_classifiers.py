@@ -13,7 +13,7 @@ from sklearn.neural_network import MLPClassifier
 
 RANDOM_SED: int = 42
 
-"""Classifiers with paremeters used in GridSearchCV 
+""" Classifiers with parameters used in GridSearchCV 
 """
 ml_classifiers_params = {
 
@@ -91,4 +91,4 @@ ml_classifiers_params = {
             'batch_size': [8, 16, 32, 64]
         }
     }   
-} 
+}
