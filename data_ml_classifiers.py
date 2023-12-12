@@ -10,7 +10,6 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.ensemble import ExtraTreesClassifier
 from sklearn.neural_network import MLPClassifier
 
-
 RANDOM_SED: int = 42
 
 """ Classifiers with parameters used in GridSearchCV 
