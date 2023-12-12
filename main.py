@@ -1,15 +1,12 @@
 """Import all the necessary packages"""
-import pandas as pd
-import random
+
 import os
-import cv2
-import csv
-import copy
-import time
+
 import numpy as np
+import pandas as pd
 import tensorflow as tf
 from tensorflow import keras
-import matplotlib.pyplot as plt
+
 from sklearn.model_selection import train_test_split
 import argparse
 
@@ -17,7 +14,6 @@ import utils
 import deep_learning_models
 import machine_learning_models
 
-""""""
 
 RANDOM_SED: int = 42
 
