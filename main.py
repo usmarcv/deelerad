@@ -12,7 +12,8 @@ from tensorflow import keras
 import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split
 import argparse
-import hiss.baseline_test.dl_reform.utils as utils
+
+import utils
 import deep_learning_models
 import machine_learning_models
 
@@ -33,7 +34,7 @@ print(tf.test.is_built_with_cuda())
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-mn', '--model_name', type=str, default="VGG16", required=True, help="CNN name such as: VGG16, VGG-19, ResNet50V2, DenseNet121, DenseNet201, InceptionV3 or EfficientNetB3")
-parser.add_argument('-ndr', '--num_deep_radiomics', type=str, required=True, help="Number of deep radiomics: 100, 200, 300, 400")
+parser.add_argument('-ndr', '--num_deep_radiomics', type=str, default=100, required=True, help="Number of deep radiomics: 100, 200, 300, 400")
 args = vars(parser.parse_args())
 
 
