@@ -27,7 +27,7 @@ np.random.seed(RANDOM_SED)
 
 
 def training_gridsearchcv_best_estimator(model_name, num_deep_radiomics, X_train, X_test, y_train, y_test) -> list:
-    """_summary_
+    """ Training GridSearchCV with best estimator for each classifier
 
     Args:
         model_name (_type_): _description_
@@ -55,16 +55,6 @@ def training_gridsearchcv_best_estimator(model_name, num_deep_radiomics, X_train
         print(f'[INFO] {clf_name} is trainning...')
         start_time_train = time.time()
         clf_grid_search.fit(X_train, y_train)
-        runtime_train = time.time() - start_time_train
-
-        # Append results for each classifier and parameters used in GridSearchCV    
-        gridsearch_results.append({
-            'classifier': clf_name,
-            'best_score': clf_grid_search.best_score_,
-            'best_params': clf_grid_search.best_params_,
-            'best_estimator': clf_grid_search.best_estimator_,
-            'time': runtime_train
-        })
         
         best_model = clf_grid_search.best_estimator_ 
         best_model_voting.append((clf_name, best_model)) #Save best model for Voting Classifier
@@ -72,19 +62,26 @@ def training_gridsearchcv_best_estimator(model_name, num_deep_radiomics, X_train
         final_preds = best_model.predict(X_test)
 
         #Metrics
-        #accuracy_score_ = accuracy_score(y_test, final_preds)
         accuracy_score_ = cross_val_score(best_model, X_train, y_train, cv=kfold, scoring='accuracy')
-        #roc_auc_score_ = roc_auc_score(y_test, final_preds)
         roc_auc_score_ = cross_val_score(best_model, X_train, y_train, cv=kfold, scoring='roc_auc')
-        #f1_score_ = f1_score(y_test, final_preds, average='macro')
         f1_score_ = cross_val_score(best_model, X_train, y_train, cv=kfold, scoring='f1_macro')
-        #precision_score_ = precision_score(y_test, final_preds, average='macro')
         precision_score_ = cross_val_score(best_model, X_train, y_train, cv=kfold, scoring='precision_macro')
-        #recall_score_ = recall_score(y_test, final_preds, average='macro')
         recall_score_ = cross_val_score(best_model, X_train, y_train, cv=kfold, scoring='recall_macro')
         classification_report_ = classification_report(y_test, final_preds)
         confusion_matrix_ = confusion_matrix(y_test, final_preds)
 
+        runtime_train = time.time() - start_time_train
+
+        #Append results for each classifier and parameters used in GridSearchCV    
+        gridsearch_results.append({
+            'classifier': clf_name,
+            'best_score': clf_grid_search.best_score_,
+            'best_params': clf_grid_search.best_params_,
+            'best_estimator': clf_grid_search.best_estimator_,
+            'time': runtime_train
+        })
+
+        #Append metrics results for each classifier with best parameters
         scores_results.append({
             'classifier': clf_name,
             'accuracy_score': accuracy_score_.mean(),
@@ -98,7 +95,8 @@ def training_gridsearchcv_best_estimator(model_name, num_deep_radiomics, X_train
             'recall_score': recall_score_.mean(),
             'recall_score_std': recall_score_.std(),
             'classification_report': classification_report_,
-            'confusion_matrix': confusion_matrix_
+            'confusion_matrix': confusion_matrix_,
+            'time': runtime_train
         })
         
         print(f"Acurracy: {accuracy_score_.mean()} +/- {accuracy_score_.std()}")
@@ -120,7 +118,7 @@ def training_gridsearchcv_best_estimator(model_name, num_deep_radiomics, X_train
                                                          'best_params', 
                                                          'best_estimator', 
                                                          'time'])
-    df_gridsearch_results_params.to_csv(os.path.join('./', model_name, f"_feat_{num_deep_radiomics}", 'df_gridsearch_results_params.csv'), index=None)
+    df_gridsearch_results_params.to_csv(os.path.join('./', model_name, f"{num_deep_radiomics}_deepradiomics", 'ML_df_gridsearch_results_params.csv'), index=None)
     df_ml_results = pd.DataFrame(scores_results, 
                                  columns=['classifier', 
                                           'accuracy_score', 
@@ -134,14 +132,15 @@ def training_gridsearchcv_best_estimator(model_name, num_deep_radiomics, X_train
                                           'recall_score', 
                                           'recall_score_std', 
                                           'classification_report', 
-                                          'confusion_matrix'])
-    df_ml_results.to_csv(os.path.join('./', model_name, f"_feat_{num_deep_radiomics}", 'df_machine_learning_results.csv'), index=None)
+                                          'confusion_matrix',
+                                          'time'])
+    df_ml_results.to_csv(os.path.join('./', model_name, f"{num_deep_radiomics}_deepradiomics", 'ML_df_machine_learning_results.csv'), index=None)
 
     return best_model_voting
 
 
 def voting_classifier(model_name, num_deep_radiomics, X_train, X_test, y_train, y_test, best_model_voting) -> None:
-    """_summary_
+    """ Voting Classifier using Ensemble Learning Model
 
     Args:
         model_name (_type_): _description_
@@ -162,7 +161,6 @@ def voting_classifier(model_name, num_deep_radiomics, X_train, X_test, y_train, 
     print(f'[INFO] Voting Classifier using Ensemble Learning Model is trainning...')
     start_time_train = time.time()
     voting_classifier.fit(X_train, y_train)
-    runtime_train = time.time() - start_time_train
     final_preds = voting_classifier.predict(X_test)
 
     accuracy_score_ = accuracy_score(y_test, final_preds)
@@ -173,6 +171,8 @@ def voting_classifier(model_name, num_deep_radiomics, X_train, X_test, y_train, 
     classification_report_ = classification_report(y_test, final_preds)
     confusion_matrix_ = confusion_matrix(y_test, final_preds)
 
+    runtime_train = time.time() - start_time_train
+
     scores_results_voting.append({
         'classifier': voting_classifier.__class__.__name__,
         'accuracy_score': accuracy_score_,
@@ -181,7 +181,8 @@ def voting_classifier(model_name, num_deep_radiomics, X_train, X_test, y_train, 
         'precision_score': precision_score_,
         'recall_score': recall_score_,
         'classification_report': classification_report_,
-        'confusion_matrix': confusion_matrix_
+        'confusion_matrix': confusion_matrix_,
+        'time': runtime_train
     })
         
     print(f"Acurracy: {accuracy_score_}")
@@ -201,5 +202,6 @@ def voting_classifier(model_name, num_deep_radiomics, X_train, X_test, y_train, 
                                                          'precision_score', 
                                                          'recall_score', 
                                                          'classification_report', 
-                                                         'confusion_matrix']) 
-    df_ensemble_learning_results.to_csv(os.path.join('./', model_name, f"_feat_{num_deep_radiomics}", 'df_ensemble_learning_results.csv'), index=None)
+                                                         'confusion_matrix',
+                                                         'time']) 
+    df_ensemble_learning_results.to_csv(os.path.join('./', model_name, f"{num_deep_radiomics}_deepradiomics", 'ML_df_ensemble_learning_results.csv'), index=None)
