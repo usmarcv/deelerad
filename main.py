@@ -70,6 +70,6 @@ if __name__ == '__main__':
 
     best_model_gs = machine_learning_models.training_gridsearchcv_best_estimator(args['model_name'], int(args['num_deep_radiomics']), X_train_rad, X_test_rad, y_train_rad, y_test_rad)
 
-    machine_learning_models.voting_classifier(X_train_rad, X_test_rad, y_train_rad, y_test_rad, best_model_gs)
+    machine_learning_models.voting_classifier(args['model_name'], int(args['num_deep_radiomics']), X_train_rad, X_test_rad, y_train_rad, y_test_rad, best_model_gs)
     
     
