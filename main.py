@@ -21,6 +21,7 @@ tf.random.set_seed(RANDOM_SED)
 keras.utils.set_random_seed(RANDOM_SED)
 
 #Check if GPU is available
+print("[INFO] Checking if GPU is available...")
 print("Device: \n", tf.config.experimental.list_physical_devices())
 print(tf.__version__)
 print(tf.test.is_built_with_cuda())
@@ -43,13 +44,18 @@ if __name__ == '__main__':
         os.mkdir(os.path.join('./', args['model_name'], f"{args['num_deep_radiomics']}_deepradiomics"))
 
     #Load images from folder
-    covid = r'/home/marcuslobo/codes/hiss/baseline_test/dl_reform/dataset_script/covid/'   #directory of covid image
-    non_covid = r'/home/marcuslobo/codes/hiss/baseline_test/dl_reform/dataset_script/normal/'   #directory of non-covid image
+    covid = r'dataset_script/covid/'   #directory of covid image
+    normal = r'dataset_script/normal/'   #directory of normal image
+
+    print("\n[INFO] Loading images from folder...")
     images_covid = utils.load_images_from_folder(covid)
-    images_non_covid = utils.load_images_from_folder(non_covid)
+    images_non_covid = utils.load_images_from_folder(normal)
     images = images_covid + images_non_covid
+
+    print("\n[INFO] Preprocessing dataset...")
     label_dl, label_ml, images = utils.preprocessing_dataset(images)
 
+    print("\n[INFO] Splitting dataset...")
     #Split dataset into train and test sets (80% and 20%, respectively) DL models and ML models
     (X_train, X_test, y_train, y_test) = train_test_split(images, label_dl, test_size=0.20, stratify=label_dl, random_state=RANDOM_SED)
 
@@ -57,9 +63,14 @@ if __name__ == '__main__':
     NUM_CLASSES: int = 2
     input_shape = (224, 224, 3)
     
+    print("\n[INFO] Training deep learning models...")
     model = deep_learning_models.create_model(args['model_name'], int(args['num_deep_radiomics']), input_shape, NUM_CLASSES)
     training = deep_learning_models.training_model(model, args['model_name'], int(args['num_deep_radiomics']), input_shape, X_train, y_train, X_test, y_test)
+
+    print("\n[INFO] Saving deep radiomic features for ML models...")
     save_features = deep_learning_models.save_deep_radiomic_features(args['model_name'], int(args['num_deep_radiomics']), images, label_ml)
+
+    print("\n[INFO] Training machine learning models with deep radiomic features..")
     X_train_rad, X_test_rad, y_train_rad, y_test_rad = utils.preprocessing_radiomic_features(args['model_name'], int(args['num_deep_radiomics']))
     best_model_gs = machine_learning_models.training_gridsearchcv_best_estimator(args['model_name'], int(args['num_deep_radiomics']), X_train_rad, X_test_rad, y_train_rad, y_test_rad)
     machine_learning_models.voting_classifier(args['model_name'], int(args['num_deep_radiomics']), X_train_rad, X_test_rad, y_train_rad, y_test_rad, best_model_gs)
