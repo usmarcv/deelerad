@@ -1,2 +1,2 @@
-# deele-rad
-Deep Learning-based Radiomics
+# DEELE-Rad (Deep Learning-based Radiomics)
+
