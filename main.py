@@ -28,8 +28,14 @@ print(tf.test.is_built_with_cuda())
 
 #Argument parser
 parser = argparse.ArgumentParser()
-parser.add_argument('-mn', '--model_name', type=str, default="VGG16", required=True, help="CNN name such as: VGG16, VGG-19, ResNet50V2, DenseNet121, DenseNet201, InceptionV3 or EfficientNetB3")
-parser.add_argument('-ndr', '--num_deep_radiomics', type=str, default=100, required=True, help="Number of deep radiomics: 100, 200, 300, 400")
+parser.add_argument('-mn', '--model_name', type=str, default="VGG16", required=True, 
+                    help="CNN name such as: VGG16, VGG-19, ResNet50V2, DenseNet121, DenseNet201, InceptionV3 or EfficientNetB3")
+parser.add_argument('-ndr', '--num_deep_radiomics', type=str, default=100, required=True, 
+                    help="Number of deep radiomics: 100, 200, 300, 400")
+parser.add_argument('-e', '--epochs', type=int, default=100, required=True,
+                    help="Number of epochs for training the DEELE-Rad")
+
+
 args = vars(parser.parse_args())
 
 
@@ -65,7 +71,7 @@ if __name__ == '__main__':
     
     print("\n[INFO] Training deep learning models...")
     model = deep_learning_models.create_model(args['model_name'], int(args['num_deep_radiomics']), input_shape, NUM_CLASSES)
-    training = deep_learning_models.training_model(model, args['model_name'], int(args['num_deep_radiomics']), input_shape, X_train, y_train, X_test, y_test)
+    training = deep_learning_models.training_model(model, args['model_name'], int(args['num_deep_radiomics']), input_shape, X_train, y_train, X_test, y_test,  int(args['epochs']))
 
     print("\n[INFO] Saving deep radiomic features for ML models...")
     save_features = deep_learning_models.save_deep_radiomic_features(args['model_name'], int(args['num_deep_radiomics']), images, label_ml)
