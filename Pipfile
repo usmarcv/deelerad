@@ -9,6 +9,7 @@ pandas = "*"
 tensorflow = "*"
 scikit-learn = "*"
 opencv-python = "*"
+cuda-python = "*"
 
 [dev-packages]
 
