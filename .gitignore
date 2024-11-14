@@ -1,3 +1,11 @@
+#Folders restults based on the script
+DenseNet121
+DenseNet201
+EfficientNetB3
+InceptionV3
+ResNet50V2
+VGG16
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
