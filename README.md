@@ -57,7 +57,8 @@ If you use this repository, please cite the following paper:
     volume={13},
     number={},
     pages={517-522},
-    doi={10.1007/s13755-024-00330-6}
+    doi={10.1007/s13755-024-00330-6},
+    url={https://link.springer.com/article/10.1007/s13755-024-00330-6}
     }
 
 ## Contact
