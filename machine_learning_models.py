@@ -21,6 +21,11 @@ from sklearn.metrics import classification_report
 from data_ml_classifiers import ml_classifiers_params
 
 
+import warnings
+from sklearn.exceptions import ConvergenceWarning
+warnings.filterwarnings("ignore", category=ConvergenceWarning)
+
+
 RANDOM_SED: int = 42
 
 np.random.seed(RANDOM_SED)
