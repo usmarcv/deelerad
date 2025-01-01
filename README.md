@@ -32,3 +32,9 @@ This repository contains the code used in **DEELE-Rad (Deep Learning-based Radio
       ```
 
 ## Running
+
+To run our DEELE-Rad proposal, you can use two approaches:
+
+1. Single model deep learning:
+    
+2. Many models using our `script.sh` file:
