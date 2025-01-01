@@ -11,20 +11,24 @@ This repository contains the code used in **DEELE-Rad (Deep Learning-based Radio
 ## Quickstart and Installation
 
 1. Clone the repository:
-  ```sh
-  git clone https://github.com/usmarcv/deele-rad.git
-  cd deele-rad
-  ```
+    ```sh
+    git clone https://github.com/usmarcv/deele-rad.git
+    cd deele-rad
+    ```
 
 2. The following instructions should be followed with Python 3.12 to create a Pipenv with all required installed packages. If you do not have Pipenv installed, run the following:
-  ```sh
-  pip install pipenv
-  ```
-  Activate the environment:
-  ```sh
-  pipenv shell
-  ```
-  You can install the dependencies libraries with the following command:
-  ```sh
-  pipenv sync
-  ```
+    ```sh
+    pip install pipenv
+    ```
+    
+    Activate the environment:
+      ```sh
+      pipenv shell
+      ```
+    
+    You can install the dependencies libraries based on the `Pipfile` with the following command:
+      ```bash
+      pipenv sync
+      ```
+
+## Running
