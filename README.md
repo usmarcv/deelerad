@@ -43,3 +43,4 @@ To run our DEELE-Rad proposal, you can use two approaches:
     ```sh
     ./script.sh
     ```
+    `Note:` you can change the arguments to using another hyperparameters
