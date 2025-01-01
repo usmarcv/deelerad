@@ -6,10 +6,10 @@ name = "pypi"
 [packages]
 numpy = "*"
 pandas = "*"
-tensorflow = "*"
 scikit-learn = "*"
 opencv-python = "*"
 cuda-python = "*"
+tensorflow = {extras = ["and-cuda"], version = "*"}
 
 [dev-packages]
 
