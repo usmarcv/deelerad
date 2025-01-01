@@ -36,5 +36,10 @@ This repository contains the code used in **DEELE-Rad (Deep Learning-based Radio
 To run our DEELE-Rad proposal, you can use two approaches:
 
 1. Single model deep learning:
-    
+    ```sh
+    pipenv run python main.py --model_name VGG15 --num_deep_radiomics 300 --epochs 100
+    ```
 2. Many models using our `script.sh` file:
+    ```sh
+    ./script.sh
+    ```
