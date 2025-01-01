@@ -61,6 +61,12 @@ If you use this repository, please cite the following paper:
     url={https://link.springer.com/article/10.1007/s13755-024-00330-6}
     }
 
-## Contact
+
+## Acknowledgements
+
+This study was financed in part by the São Paulo Research Foundation (FAPESP – grants 2016/17078-0, 2020/07200-9, 2021/08982-3, 2023/14759-0, 2023/14390-7 and 2024/09462-1), National Council for Scientific and Technological Development (CNPq – grants 152760/2021-0, 308544/2021-8, and 308738/2021-7), and Coordination for Higher Education Personnel Improvement (Finance Code 001 and grant 88887.969051/2024-00).
+
+## Contact 
 
 For more information, you can contact me by writing to [marcusvlc@usp.br](marcusvlc@usp.br) or [LinkedIn](https://www.linkedin.com/in/marcusvlc/).
+
