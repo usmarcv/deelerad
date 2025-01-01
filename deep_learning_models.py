@@ -102,7 +102,7 @@ def create_model(model_name, num_deep_radiomics, input_shape, num_classes)-> obj
     return model
 
 
-def training_model(model, model_name, num_deep_radiomics, input_shape, X_train, y_train, X_test, y_test)-> None:
+def training_model(model, model_name, num_deep_radiomics, input_shape, X_train, y_train, X_test, y_test, epochs)-> None:
     """ Training a Deep Learning model with transfer learning and fine-tuning
 
     Args:
@@ -117,7 +117,7 @@ def training_model(model, model_name, num_deep_radiomics, input_shape, X_train, 
 
     lr_reduce   = tf.keras.callbacks.ReduceLROnPlateau(monitor='val_accuracy', factor=0.1, min_delta=1e-5, patience=5, verbose=0)
     early       = tf.keras.callbacks.EarlyStopping(monitor='val_accuracy', patience=5, mode='max')
-    filepath    = os.path.join('./', model_name, f"{num_deep_radiomics}_deepradiomics", f'DL_{model_name}_{num_deep_radiomics}_best_model.hdf5' )
+    filepath    = os.path.join('./', model_name, f"{num_deep_radiomics}_deepradiomics", f'DL_{model_name}_{num_deep_radiomics}_best_model.keras' )
     checkpoint  = tf.keras.callbacks.ModelCheckpoint(filepath, monitor='val_accuracy', verbose=0, save_best_only=True, mode='max')
     scores_results_dl = []
     runtime_train = 0.0
@@ -130,7 +130,7 @@ def training_model(model, model_name, num_deep_radiomics, input_shape, X_train, 
         history = model.fit(X_train, 
                             y_train, 
                             batch_size=32, 
-                            epochs=100, 
+                            epochs=epochs, 
                             verbose=1, 
                             validation_data=(X_test, y_test), 
                             callbacks=[early, 
@@ -144,7 +144,7 @@ def training_model(model, model_name, num_deep_radiomics, input_shape, X_train, 
                             )
     
     #Save trained model
-    model.save(os.path.join('./', model_name, f"{num_deep_radiomics}_deepradiomics", f'DL_{model_name}_{num_deep_radiomics}_trained_model.h5'))
+    model.save(os.path.join('./', model_name, f"{num_deep_radiomics}_deepradiomics", f'DL_{model_name}_{num_deep_radiomics}_trained_model.keras'))
     runtime_train = time.time() - start_time_train
 
     y_test_arg = np.argmax(y_test, axis=1)
@@ -206,7 +206,7 @@ def save_deep_radiomic_features(model_name, num_deep_radiomics, dataset_images, 
     """    
 
     model = tf.keras.models.load_model(os.path.join('./', model_name, f"{num_deep_radiomics}_deepradiomics", 
-                                                    f'DL_{model_name}_{num_deep_radiomics}_trained_model.h5'))
+                                                    f'DL_{model_name}_{num_deep_radiomics}_trained_model.keras'))
     layer_deep_radiomics = tf.keras.Model(inputs=model.input, outputs=model.get_layer('layer_deep_radiomics').output)
 
     deep_radiomics_features_extracted = layer_deep_radiomics.predict(dataset_images)
