@@ -44,3 +44,10 @@ To run our DEELE-Rad proposal, you can use two approaches:
     ./script.sh
     ```
     `Note:` you can change the arguments to using another hyperparameters
+
+## Reference
+If you use this repository, please cite the following paper:
+
+
+## Contact
+For more information, you can contact me by writing to [marcusvlc@usp.br](marcusvlc@usp.br) or [LinkedIn](https://www.linkedin.com/in/marcusvlc/).
