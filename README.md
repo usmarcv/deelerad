@@ -41,6 +41,7 @@ To run our DEELE-Rad proposal, you can use two approaches:
     ```
 2. Many models using our `script.sh` file:
     ```sh
+    chmod +x script.sh
     ./script.sh
     ```
     `Note:` you can change the arguments to using another hyperparameters
