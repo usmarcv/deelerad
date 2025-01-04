@@ -48,7 +48,8 @@ To run our DEELE-Rad proposal, you can use two approaches:
 ## Reference
 
 If you use this repository, please cite the following paper:
-    
+
+```bibtex
     @inproceedings{Costa2024,
     author={Costa, Márcus V. L. and de Aguiar, Erikson J. and Rodrigues, Lucas S. and Traina, Caetano and Traina, Agma J. M.},
     journal={Health Information Science and Systems (HISS)}, 
@@ -60,7 +61,7 @@ If you use this repository, please cite the following paper:
     doi={10.1007/s13755-024-00330-6},
     url={https://link.springer.com/article/10.1007/s13755-024-00330-6}
     }
-
+```
 
 ## Acknowledgements
 
